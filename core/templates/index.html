@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="es" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ titulo }}</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        background: '#09090b',
+                        card: '#09090b',
+                        border: '#27272a',
+                        muted: '#a1a1aa',
+                        accent: '#9333ea', 
+                    }
+                }
+            }
+        }
+    </script>
+    <style type="text/tailwindcss">
+        body {
+            background-color: theme('colors.background');
+            color: #fafafa;
+        }
+       
+        .shadcn-card {
+            background-color: theme('colors.card');
+            border: 1px solid theme('colors.border');
+            border-radius: 0.5rem;
+            box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+        }
+        .shadcn-badge {
+            display: inline-flex;
+            align-items: center;
+            border-radius: 9999px;
+            border: 1px solid theme('colors.border');
+            padding: 0.125rem 0.625rem;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+    </style>
+</head>
+<body class="min-h-screen p-6 md:p-12 antialiased selection:bg-purple-500/30">
+    <div class="max-w-5xl mx-auto space-y-8">
+        
+        <header class="border-b border-zinc-800 pb-5">
+            <h1 class="text-2xl font-semibold tracking-tight text-zinc-100">Dashboard Técnico</h1>
+            <p class="text-sm text-zinc-400 mt-1">Evaluación de rendimiento N+1 y consumo de API REST.</p>
+        </header>
+
+        <main class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            
+            <section class="shadcn-card p-6 flex flex-col">
+                <div class="mb-6 flex items-center justify-between">
+                    <div>
+                        <h2 class="text-lg font-semibold tracking-tight">Repositorios Originales</h2>
+                        <p class="text-xs text-zinc-500 mt-1">Obtenidos vía requests</p>
+                    </div>
+                    <span class="shadcn-badge bg-purple-500/10 text-purple-400 border-purple-500/20">GitHub API</span>
+                </div>
+                
+                <div class="space-y-2 flex-grow">
+                    {% for repo in repos %}
+                    <div class="flex items-center justify-between p-3 rounded-md border border-zinc-800/50 bg-zinc-900/30 hover:bg-zinc-800/50 transition-colors">
+                        <span class="text-sm font-medium text-zinc-200">{{ repo }}</span>
+                    </div>
+                    {% empty %}
+                    <div class="text-sm text-zinc-500 text-center py-6 border border-dashed border-zinc-800 rounded-md">
+                        No se encontraron repositorios.
+                    </div>
+                    {% endfor %}
+                </div>
+            </section>
+
+            <section class="shadcn-card p-6 flex flex-col">
+                <div class="mb-6 flex items-center justify-between">
+                    <div>
+                        <h2 class="text-lg font-semibold tracking-tight">Control de Documentos</h2>
+                        <p class="text-xs text-zinc-500 mt-1">select_related() implementado</p>
+                    </div>
+                    <span class="shadcn-badge bg-zinc-800 text-zinc-300">Base de Datos</span>
+                </div>
+                
+                <div class="space-y-3 flex-grow">
+                    {% for doc in documentos %}
+                    <div class="p-4 rounded-md border border-zinc-800/50 bg-zinc-900/30 flex flex-col gap-3 hover:border-zinc-700 transition-colors">
+                        <div class="flex items-center justify-between">
+                            <span class="text-sm font-semibold text-zinc-100">{{ doc.tag }}</span>
+                            <span class="text-xs text-zinc-400 border border-zinc-800 px-2 py-0.5 rounded-full bg-zinc-950">Rev {{ doc.revision }}</span>
+                        </div>
+                        <div class="flex items-center justify-between text-xs pt-2 border-t border-zinc-800/50">
+                            <span class="text-zinc-500">Proyecto: <span class="text-zinc-300 font-medium">{{ doc.project.name }}</span></span>
+                            <span class="font-medium 
+                                {% if doc.status == 'APROBADO' %}text-emerald-400
+                                {% elif doc.status == 'REVISION' %}text-purple-400
+                                {% else %}text-zinc-400{% endif %}">
+                                {{ doc.get_status_display }}
+                            </span>
+                        </div>
+                    </div>
+                    {% empty %}
+                    <div class="text-sm text-zinc-500 text-center py-6 border border-dashed border-zinc-800 rounded-md">
+                        Base de datos vacía.
+                    </div>
+                    {% endfor %}
+                </div>
+            </section>
+
+        </main>
+    </div>
+</body>
+</html>

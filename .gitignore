@@ -1,0 +1,21 @@
+# Python / Django
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Entorno Virtual
+env/
+venv/
+.env
+
+# Base de datos
+db.sqlite3
+
+# Archivos de SO / Entorno
+.DS_Store
+.vscode/
+.idea/
+
+# Archivos estáticos y multimedia en producción
+staticfiles/
+media/
