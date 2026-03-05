@@ -13,9 +13,12 @@ db.sqlite3
 
 # Archivos de SO / Entorno
 .DS_Store
-.vscode/
 .idea/
 
 # Archivos estáticos y multimedia en producción
 staticfiles/
 media/
+branch_structure.json
+temp_auto_push.bat
+temp_interactive_push.bat
+.gitignore
